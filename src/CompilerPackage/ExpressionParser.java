@@ -6,7 +6,7 @@ import OwnExceptions.NoDigitException;
 
 public class ExpressionParser {
 	private Cradle base;
-	public ExpressionParser(){
+	public ExpressionParser() throws IOException{
 		base = new Cradle();
 	}
 	public ExpressionParser(Cradle c) {
@@ -23,7 +23,7 @@ public class ExpressionParser {
 	public void Expression() throws NoDigitException, IOException
 	{
 		Term();	
-		base.EmitLn("MOVE #" + CharToString(base.GetNum()) + ",D0");
+		base.EmitLn("MOVE D0,D1");
 		switch (base.look) {
 		case '+':
 			Add();
@@ -72,7 +72,6 @@ public class ExpressionParser {
 		ExpressionParser parser = new ExpressionParser();
 		Cradle cradle = parser.base;
 		
-		cradle.Init();
 		parser.Expression();
 	}
 }

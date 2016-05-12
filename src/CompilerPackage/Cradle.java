@@ -10,6 +10,10 @@ public class Cradle {
 	public char look;
 	private BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
 	
+	public Cradle() throws IOException {
+		Init();
+	}
+	
 	public void GetChar() throws IOException{
 		look = (char) scanner.read();
 	}
