@@ -7,7 +7,7 @@ import OwnExceptions.NoNameException;
 import OwnExceptions.NoDigitException;
 
 public class Cradle {
-	private char look;
+	public char look;
 	private BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
 	
 	public void GetChar() throws IOException{

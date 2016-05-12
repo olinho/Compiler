@@ -12,8 +12,52 @@ public class ExpressionParser {
 	public ExpressionParser(Cradle c) {
 		base = c;
 	}
-	public void Expression() throws NoDigitException, IOException {
+	
+	/**
+	 * Parse and translate an Math expression
+	 */
+	public void Term() throws NoDigitException, IOException {
 		base.EmitLn("MOVE #" + CharToString(base.GetNum()) + ",D0");
+	}
+	
+	public void Expression() throws NoDigitException, IOException
+	{
+		Term();	
+		base.EmitLn("MOVE #" + CharToString(base.GetNum()) + ",D0");
+		switch (base.look) {
+		case '+':
+			Add();
+			break;
+		case '-':
+			Subtract();
+			break;
+		default:
+			base.Expected("Addop");
+			break;
+		}	
+	}
+	
+	/**
+	 * add procedure
+	 * @throws IOException 
+	 * @throws NoDigitException 
+	 */
+	public void Add() throws IOException, NoDigitException {
+		base.Match('+');
+		Term();
+		base.EmitLn("ADD D1,D0");
+	}
+	
+	/**
+	 * subtract procedure
+	 * @return
+	 * @throws IOException 
+	 * @throws NoDigitException 
+	 */
+	public void Subtract() throws IOException, NoDigitException {
+		base.Match('-');
+		Term();
+		base.EmitLn("SUBTRACT D1,D0");
 	}
 	
 	
