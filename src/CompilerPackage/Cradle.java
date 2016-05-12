@@ -10,7 +10,7 @@ public class Cradle {
 	private char look;
 	private BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
 	
-	public void ReadChar() throws IOException{
+	public void GetChar() throws IOException{
 		look = (char) scanner.read();
 	}
 	
@@ -37,7 +37,7 @@ public class Cradle {
 	 * check if input char is equal to `look` char
 	 */
 	public void Match(char x) throws IOException{
-		if (look == x) ReadChar();
+		if (look == x) GetChar();
 		else Expected(CharToString(x));
 	}
 			
@@ -63,7 +63,7 @@ public class Cradle {
 			throw new NoNameException("MyException: Expecting name");
 		}
 		char lastChar = Character.toUpperCase(look);
-		ReadChar(); 	// read next char
+		GetChar(); 	// read next char
 		return lastChar;
 	}
 	
@@ -79,7 +79,7 @@ public class Cradle {
 			throw new NoDigitException("MyException: Expecting digit");
 		}
 		char lastChar = look;
-		ReadChar(); 	// read next char
+		GetChar(); 	// read next char
 		return lastChar;
 	}
 	
@@ -99,12 +99,12 @@ public class Cradle {
 	
 	
 	public void Init() throws IOException{
-		ReadChar();
+		GetChar();
 	}
 	
 	// **********************
 	// my own methods
-	public char GetChar() {
+	public char ShowLook() {
 		return look;
 	}
 	
@@ -112,9 +112,5 @@ public class Cradle {
 		return String.valueOf(c);
 	}
 	// **********************
-	
-	public static void main(String [] args) throws IOException {
-		Cradle cradle = new Cradle();
-		cradle.Init();
-	}
+
 }
