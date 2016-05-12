@@ -1,6 +1,7 @@
 package CompilerPackage;
 
 import java.io.IOException;
+import java.util.Stack;
 
 import OwnExceptions.NoDigitException;
 
