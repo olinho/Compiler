@@ -7,6 +7,11 @@ import java.util.LinkedList;
 
 import ParserPackage.Tokenizer.Token;
 
+/**
+ * This class produce tree including expression and values
+ * @author Olek
+ *
+ */
 public class CodeGenerator {
 	
 	private Tokenizer tokenizer;
@@ -21,84 +26,140 @@ public class CodeGenerator {
 	
 	
 	/**
+	 * method working on private variable tree, adding new value
+	 * @param expr
+	 */
+	public void AddValueToTree(int value)
+	{
+		tree = AddValue(tree, value);
+	}
+	
+	/**
+	 * method working on private variable tree, adding new expression
+	 * @param expr
+	 */
+	public void AddExpressionToTree(String expr)
+	{
+		tree = AddExpression(tree, expr);
+	}
+	
+	
+	/**
+	 * method adding new expression to the tree and returning udpate node
+	 * @param node - current node
+	 * @param expr - inserting expression
+	 * @return created node
+	 */
+	public Node AddExpression(Node node, String expr)
+	{
+		Node child1 = node.GetChild1();
+		Node child2 = node.GetChild2();
+		int value = node.GetValue();
+		
+		if (child1 == null)
+		{
+			node.SetChild1(new Node(value));
+			node.SetExpression(expr);
+		}
+		else
+		{
+			if (expr.equals("add"))
+			{
+				Node newNode = new Node();
+				newNode.SetChild1(node);
+				newNode.SetExpression(expr);
+				return newNode;
+			}
+			else if (expr.equals("mul"))
+			{
+				if (child2.HasChildren())
+				{
+					node.SetChild2(AddExpression(node.GetChild2(), expr));
+				}
+				else // child2 doesn't have any children 
+				{
+					node.SetChild2(new Node(expr, child2.GetValue()));
+				}
+			}
+		}
+		return node;
+		
+	}
+	
+	
+	/**
 	 * method adds new value to Node and returns updated node
 	 * @param node - current node
 	 * @param val - inserting value
 	 * @return
 	 */
-	public Node AddValue(Node node, int val) {
+	public Node AddValue(Node node, int val) 
+	{
 		Node child1 = node.GetChild1();
 		Node child2 = node.GetChild2();
 		String expression = node.GetExpression();
-		int value = node.GetValue();
 		
 		if (child1 == null)
 		{
 			if (expression.equals("")) 
 			{
-				value = val; 	// return Node(val)
+				node.SetValue(val);; 	// return Node(val)
 			}
 			else
 			{
-//				child1 = new Node(val);		// return Node(expr, Node(val), null)
 				node.SetChild1(new Node(val));
 			}
 		}
-		else	// child1 != null    for example Node(+, Node(2), null)
+		else	// child1 != null    for example Node(add, Node(2), null)
 		{
 			if (child1.DoesNodeNeedsValue())
 			{
-				child1 = AddValue(child1, val);
+				node.SetChild1(AddValue(child1, val));
 			}
 			else
 			{
 				if (child2 == null)
 				{
-//					child2 = new Node(val);
 					node.SetChild2(new Node(val));
 				}
 				else
 				{
-					if (child2.DoesNodeNeedsValue())
-					{
-						child2 = AddValue(child2, value);
-					}
+					node.SetChild2(AddValue(child2, val));
 				}
 			}
 		}
 		return node;
 	}
 	
-	/**
-	 * check if node needs value, for example: Node(+, Node(2), null)
-	 * @param node
-	 * @return
-	 */
-//	public boolean IfNodeNeedsValue(Node node)
-//	{
-//		Node child1 = node.GetChild1();
-//		Node child2 = node.GetChild2();
-//		String expression = node.GetExpression();
-//		int value = node.GetValue();
-//		
-//		if (!expression.equals("")) 	// if expression is not set
-//		{
-//			return false;
-//		}
-//		// expression is set
-//		
-//		if (child1 == null)
-//		{
-//			return true;
-//		}
-//		else if (child1 != null)
-//		{
-//			if (child2 == null)
-//			{
-//				return true;
-//			}
-//		}
-//	}
+	
+	public void CreateSampleTree()
+	{
+		AddValueToTree(2);
+		System.out.println(tree.NodeToString());
+		
+		AddExpressionToTree("add");
+		System.out.println(tree.NodeToString());
+		
+		AddValueToTree(5);
+		System.out.println(tree.NodeToString());
+		
+		AddExpressionToTree("add");
+		System.out.println(tree.NodeToString());
+		
+		AddValueToTree(20);
+		System.out.println(tree.NodeToString());
+		
+		AddExpressionToTree("mul");
+		System.out.println(tree.NodeToString());
+
+		AddValueToTree(1);
+		System.out.println(tree.NodeToString());
+	}
+	
+	public void ShowTree()
+	{
+		System.out.println(tree.NodeToString());
+	}
 	
 	public String ReadExpression() throws IOException
 	{
@@ -108,11 +169,7 @@ public class CodeGenerator {
 	
 	public static void main(String[] args) {
 		CodeGenerator cg = new CodeGenerator();
-		Node tree = new Node();
-		tree.SetExpression("add");
-		tree.SetChild1(new Node("+", new Node(2)));
-		System.out.println(tree.NodeToString());
-		Node tree2 = cg.AddValue(tree, 5);
-		System.out.println(tree2.NodeToString());
+		cg.CreateSampleTree();
+		cg.ShowTree();
 	}
 }
