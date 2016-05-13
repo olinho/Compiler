@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import jdk.nashorn.internal.runtime.ParserException;
 
 /**
- * Parser
+ * Scaner
  * @author Olek
  *
  */
@@ -30,6 +30,7 @@ public class Tokenizer {
 	public void tokenize(String str)
 	{
 		String s = new String(str);
+		s = RemoveSpaces(s);
 		tokens.clear();
 		
 		boolean match = false;
@@ -57,14 +58,15 @@ public class Tokenizer {
 	
 	public void createTokens()
 	{
-		add("sin|cos|sqrt", 1);
-		add("\\(", 2);
-		add("\\)", 3);
-		add("[+-]", 4);
-		add("[*/]", 5);
-		add("\\^", 6);
-		add("[0-9]", 7);
-		add("[a-zA-Z][a-zA-Z0-9_]*", 8);	// variable
+		Add("sin|cos|sqrt", 1);
+		Add("\\(", 2);
+		Add("\\)", 3);
+		Add("[+-]", 4);
+		Add("[*/]", 5);
+		Add("\\^", 6);
+		Add("[0-9]+", 7);
+		Add("[a-zA-Z][a-zA-Z0-9_]*", 8);	// variable
+		Add(" ", 9);
 	}
 	
 	public class Token 
@@ -93,12 +95,22 @@ public class Tokenizer {
 		}
 	}
 	
-	public void add(String regex, int token) {
+	/**
+	 * add token 
+	 */
+	public void Add(String regex, int token) {
 		tokenInfos.add(
 				new TokenInfo(
 						Pattern.compile("^("+regex+")"), token));
 	}
 	
+	/**
+	 * remove spaces from expression 
+	 */
+	public String RemoveSpaces(String str)
+	{
+		return str.replaceAll(" ", "");
+	}
 	
 	public LinkedList<Token> getTokens() {
 		return tokens;
@@ -108,7 +120,7 @@ public class Tokenizer {
 		Tokenizer tokenizer = new Tokenizer();
 		try
 		{
-			tokenizer.tokenize(" sin(y) + (23 - 15) * 2 / var_n ");
+			tokenizer.tokenize(" 23 + 12*5 + 1");
 			
 			for (Tokenizer.Token tok : tokenizer.getTokens())
 			{

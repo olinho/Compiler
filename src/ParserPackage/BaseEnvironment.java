@@ -49,6 +49,7 @@ public class BaseEnvironment {
 				ExecuteExpression(expr);
 				
 			}
+			System.out.println("Stack content: " + stack);
 		}
 	}
 	
