@@ -3,9 +3,7 @@ package ParserPackage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-
-import ParserPackage.Tokenizer.Token;
+import java.util.Scanner;
 
 /**
  * This class produce tree including expression and values
@@ -16,6 +14,7 @@ public class CodeGenerator {
 	
 	private Tokenizer tokenizer;
 	private Node tree;
+	private BaseEnvironment baseEnv = new BaseEnvironment();
 	
 	
 	public CodeGenerator() 
@@ -70,7 +69,25 @@ public class CodeGenerator {
 				newNode.SetExpression(expr);
 				return newNode;
 			}
+			else if (expr.equals("sub"))
+			{
+				Node newNode = new Node();
+				newNode.SetChild1(node);
+				newNode.SetExpression(expr);
+				return newNode;
+			}
 			else if (expr.equals("mul"))
+			{
+				if (child2.HasChildren())
+				{
+					node.SetChild2(AddExpression(node.GetChild2(), expr));
+				}
+				else // child2 doesn't have any children 
+				{
+					node.SetChild2(new Node(expr, child2.GetValue()));
+				}
+			}
+			else if (expr.equals("div"))
 			{
 				if (child2.HasChildren())
 				{
@@ -156,9 +173,53 @@ public class CodeGenerator {
 		System.out.println(tree.NodeToString());
 	}
 	
+	public String RecursiveRead()
+	{
+		return RecursiveRead(tree);
+	}
+	
+	public String RecursiveRead(Node node)
+	{
+		if (node.HasChildren())
+		{
+			return  RecursiveRead(node.GetChild1()) + " | " + RecursiveRead(node.GetChild2()) + " | " + node.GetExpression();
+		}
+		else
+			return String.valueOf(node.GetValue());
+	}
+	
+	public int CalculateTree()
+	{
+		return CalculateTree(tree);
+	}
+	
+	public int CalculateTree(Node node)
+	{
+		if (node.HasChildren())
+		{
+			if (node.GetExpression().equals("add"))
+				return CalculateTree(node.GetChild1()) + CalculateTree(node.GetChild2());
+			else if(node.GetExpression().equals("sub"))
+				return CalculateTree(node.GetChild1()) - CalculateTree(node.GetChild2());
+			else if (node.GetExpression().equals("mul"))
+				return CalculateTree(node.GetChild1()) * CalculateTree(node.GetChild2());
+			else if (node.GetExpression().equals("div"))
+				return CalculateTree(node.GetChild1()) / CalculateTree(node.GetChild2());
+			else
+				return 0;
+		}
+		else
+			return node.GetValue();
+	}
+	
 	public void ShowTree()
 	{
 		System.out.println(tree.NodeToString());
+	}
+	
+	public Node GetTree()
+	{
+		return tree;
 	}
 	
 	public String ReadExpression() throws IOException
@@ -167,9 +228,51 @@ public class CodeGenerator {
 		return scanner.readLine();
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		CodeGenerator cg = new CodeGenerator();
+		Tokenizer tokenizer = new Tokenizer();
+		
 		cg.CreateSampleTree();
 		cg.ShowTree();
+		
+		System.out.println(cg.RecursiveRead());
+		
+		System.out.println(cg.CalculateTree());
+		
+		CodeGenerator gen2 = new CodeGenerator();
+		BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
+		String str = scanner.readLine();
+		
+		tokenizer.tokenize(str);
+		for (Tokenizer.Token tok : tokenizer.getTokens())
+		{
+			if (tok.token == 7)
+			{
+				gen2.AddValueToTree(Integer.parseInt(tok.sequence));
+			}
+			else if (tok.token == 4)
+			{
+				if (tok.sequence.equals("+")){
+					gen2.AddExpressionToTree("add");
+				}
+				else {
+					gen2.AddExpressionToTree("sub");
+				}
+			}
+			else if (tok.token == 5)
+			{
+				if (tok.sequence.equals("*")){
+					gen2.AddExpressionToTree("mul");
+				}
+				else {
+					gen2.AddExpressionToTree("div");
+				}
+			}
+		}
+		gen2.ShowTree();
+		
+		System.out.println(gen2.RecursiveRead());
+		
+		System.out.println(gen2.CalculateTree());
 	}
 }
