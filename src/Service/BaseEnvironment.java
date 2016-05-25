@@ -1,13 +1,10 @@
 package Service;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Stack;
-import java.util.regex.PatternSyntaxException;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
 
 /**
  * Funkcja realizuj¹ca punkt 1. z wymagañ

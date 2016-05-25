@@ -235,7 +235,7 @@ public class CodeGenerator {
 		return scanner.readLine();
 	}
 	
-<<<<<<< HEAD:src/ParserPackage/CodeGenerator.java
+
 	public static void main(String[] args) throws IOException {
 		CodeGenerator cg = new CodeGenerator();
 		Tokenizer tokenizer = new Tokenizer();
@@ -290,6 +290,4 @@ public class CodeGenerator {
 			e.printStackTrace();
 		}
 	}
-=======
->>>>>>> 4cd1bb45de61bcc5ac924159b3e4abe3cc6b17e8:src/Service/CodeGenerator.java
 }
