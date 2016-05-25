@@ -1,8 +1,10 @@
-package ParserPackage;
-
+package Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import Model.Node;
+import Model.Tokenizer;
 
 /**
  * This class produce tree including expression and values
@@ -233,6 +235,7 @@ public class CodeGenerator {
 		return scanner.readLine();
 	}
 	
+<<<<<<< HEAD:src/ParserPackage/CodeGenerator.java
 	public static void main(String[] args) throws IOException {
 		CodeGenerator cg = new CodeGenerator();
 		Tokenizer tokenizer = new Tokenizer();
@@ -287,4 +290,6 @@ public class CodeGenerator {
 			e.printStackTrace();
 		}
 	}
+=======
+>>>>>>> 4cd1bb45de61bcc5ac924159b3e4abe3cc6b17e8:src/Service/CodeGenerator.java
 }

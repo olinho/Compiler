@@ -1,4 +1,4 @@
-package ParserPackage;
+package Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +23,16 @@ public class BaseEnvironment {
 	
 	public BaseEnvironment() {
 		CreateExpressions();
+	}
+	
+	public void CreateExpressions()
+	{
+		expressions.add("add");
+		expressions.add("mul");
+		expressions.add("sub");
+		expressions.add("div");
+		expressions.add("end");
+		expressions.add("put");
 	}
 	
 	
@@ -179,17 +189,7 @@ public class BaseEnvironment {
 		}
 		return false;
 	}
-	
-	public void CreateExpressions()
-	{
-		expressions.add("add");
-		expressions.add("mul");
-		expressions.add("sub");
-		expressions.add("div");
-		expressions.add("end");
-		expressions.add("put");
-	}
-	
+
 	public void AddToStack(int val){
 		stack.push(val);
 	}
@@ -197,9 +197,4 @@ public class BaseEnvironment {
 		return stack.pop();
 	}
 	
-	public static void main(String[] args) throws Exception {
-		BaseEnvironment baseEnv = new BaseEnvironment();
-		baseEnv.ExpressionService();
-		
-	}
 }
