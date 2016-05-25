@@ -1,4 +1,4 @@
-package ParserPackage;
+package Model;
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import jdk.nashorn.internal.runtime.ParserException;
 
 /**
- * Scaner
+ * Skaner
  * @author Olek
  *
  */
@@ -116,19 +116,4 @@ public class Tokenizer {
 		return tokens;
 	}
 	
-	public static void main(String[] args) {
-		Tokenizer tokenizer = new Tokenizer();
-		try
-		{
-			tokenizer.tokenize(" 23 + 12*5 + 1");
-			
-			for (Tokenizer.Token tok : tokenizer.getTokens())
-			{
-				System.out.println("" + tok.token + " " + tok.sequence);
-			}
-		}
-		catch (ParserException p){
-			System.out.println(p.getMessage());
-		}
-	}
 }

@@ -1,4 +1,4 @@
-package ParserPackage;
+package Model;
 
 /**
  * Node can be a leaf , ex. Node(2)
@@ -14,6 +14,7 @@ package ParserPackage;
  *
  */
 public class Node {
+	
 	private String expression;
 	private boolean hasChildren;
 	private Node child1;
@@ -153,9 +154,5 @@ public class Node {
 		value = 0;
 		this.expression = expression;
 	}
-	
-	
-	//ewelin
-	
 	
 }
