@@ -87,8 +87,16 @@ public class BaseEnvironment {
 			result = pair[0] + pair[1];
 			AddToStack(result);
 			break;
+		case "sub":
+			result = pair[0] - pair[1];
+			AddToStack(result);
+			break;
 		case "mul":
 			result = pair[0] * pair[1];
+			AddToStack(result);
+			break;
+		case "div":
+			result = pair[0] / pair[1];
 			AddToStack(result);
 			break;
 		default:
@@ -134,6 +142,8 @@ public class BaseEnvironment {
 	{
 		expressions.add("add");
 		expressions.add("mul");
+		expressions.add("sub");
+		expressions.add("div");
 		expressions.add("end");
 		expressions.add("put");
 	}
@@ -141,7 +151,6 @@ public class BaseEnvironment {
 	public void AddToStack(int val){
 		stack.push(val);
 	}
-	
 	public int GetFromStack(){
 		return stack.pop();
 	}
