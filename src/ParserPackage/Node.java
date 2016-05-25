@@ -25,7 +25,7 @@ public class Node {
 		SetExpression("");
 		hasChildren = false;
 		child1 = null;
-		child1 = null;
+		child2 = null;
 		value = 0;
 	}
 	
@@ -153,4 +153,9 @@ public class Node {
 		value = 0;
 		this.expression = expression;
 	}
+	
+	
+	//ewelin
+	
+	
 }
