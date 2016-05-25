@@ -3,7 +3,6 @@ package ParserPackage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 /**
  * This class produce tree including expression and values
@@ -185,7 +184,7 @@ public class CodeGenerator {
 			return  RecursiveRead(node.GetChild1()) + " | " + RecursiveRead(node.GetChild2()) + " | " + node.GetExpression();
 		}
 		else
-			return String.valueOf(node.GetValue());
+			return "put " + String.valueOf(node.GetValue());
 	}
 	
 	public int CalculateTree()
@@ -210,6 +209,12 @@ public class CodeGenerator {
 		}
 		else
 			return node.GetValue();
+	}
+	public void ExecuteTree() throws Exception
+	{
+		String strExpr = RecursiveRead(tree) + " | end";
+		System.out.println(strExpr);
+		baseEnv.ExpressionService(strExpr);
 	}
 	
 	public void ShowTree()
@@ -274,5 +279,12 @@ public class CodeGenerator {
 		System.out.println(gen2.RecursiveRead());
 		
 		System.out.println(gen2.CalculateTree());
+		
+		System.out.println("INFO from ExecuteTree method:");
+		try {
+			gen2.ExecuteTree();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

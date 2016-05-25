@@ -53,6 +53,48 @@ public class BaseEnvironment {
 		}
 	}
 	
+	public void ExpressionService(String str) throws Exception
+	{	
+		int it = 0;
+		int amountOfElements = str.split(" | ").length;
+		System.out.println(str);
+		String expr = str.split(" \\| ")[it];
+		
+		while (it < amountOfElements)
+		{
+			System.out.println(expr);
+			if (!IsCorrectExpr(expr)) 
+				throw new Exception("Exception: unavailable expression ");
+			
+			if (IsPutExpr(expr))
+			{
+				AddToStack(GetValueFromPutExpr(expr));
+			}
+			else if (expr.equals("end"))
+			{
+				EndExprService();
+				System.out.println("Correct expression");
+				break;
+			}
+			else
+			{
+				if (it-1 == amountOfElements)
+				{
+					System.out.println("Unavailable expression");
+					throw new Exception("Exception: unavailable expression");
+				}
+				else
+				{
+					ExecuteExpression(expr);
+				}
+			}
+			System.out.println("Stack content: " + stack);
+			it++;
+			expr = str.split(" \\| ")[it];
+		}
+		
+	}
+	
 	
 	/**
 	 * return the value from put expression
